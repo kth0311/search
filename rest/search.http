@@ -1,0 +1,31 @@
+### 1 : 회원 가입
+POST http://localhost:8080/v1/user
+Content-Type: application/json
+
+{
+  "username": "test",
+  "password": "test"
+}
+
+### 2 : 로그인
+POST http://localhost:8080/oauth/token?grant_type=password&username=test&password=test
+Content-Type: application/x-www-form-urlencoded
+Authorization: Basic c2VhcmNoY2xpZW50LWlkOnNlYXJjaGNsaWVudC1zZWNyZXQ=
+
+> {%
+ client.global.set("accessToken", response.body.access_token)
+%}
+### 3 : 책검색
+GET http://localhost:8080/v1/search/book?query=미움받을 용기
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+### 4 : 내 히스토리 검색
+GET http://localhost:8080/v1/search/history
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+### 5 : 인기 검색어 top 10
+GET http://localhost:8080/v1/search/keyword
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}

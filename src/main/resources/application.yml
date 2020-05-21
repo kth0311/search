@@ -1,0 +1,61 @@
+server:
+  port: 8080
+
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      format_sql: true
+      ddl-auto: create-drop
+      use-new-id-generator-mappings: true
+    properties.hibernate.format_sql: true
+    open-in-view: false
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+search:
+  restclient:
+    external:
+      kakao: https://dapi.kakao.com
+      naver: https://openapi.naver.com
+  security:
+    oauth2:
+      client-id: searchclient-id
+      client-secret: searchclient-secret
+
+
+feign:
+  httpclient:
+    enabled: true
+    max-connections: 200
+    max-connections-per-route: 100
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 500
+        readTimeout: 1000
+        loggerLevel: full
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1550
+      circuitBreaker:
+        sleepWindowInMilliseconds: 5000
+        requestVolumeThreshold: 20
+        errorThresholdPercentage: 50
+  threadpool:
+    default:
+      coreSize: 50
+      maximumSize: 300
+      allowMaximumSizeToDivergeFromCoreSize: true
+
+logging:
+  level:
+    com.book.search: 'DEBUG'
+
